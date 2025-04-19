@@ -19,13 +19,23 @@ export default function TestCompletion({ testName }: TestCompletionProps) {
           <p className="mb-6 text-gray-500">
             You have successfully completed the {testName}.
           </p>
-          <Link href="/">
-            <Button 
-              className="bg-olive-green hover:bg-olive-green/90 text-white font-medium py-3 px-6 rounded-lg"
-            >
-              Return to Home
-            </Button>
-          </Link>
+          <div className="space-y-4">
+            <Link href="/">
+              <Button 
+                className="bg-olive-green hover:bg-olive-green/90 text-white font-medium py-3 px-6 rounded-lg w-full"
+              >
+                Return to Home
+              </Button>
+            </Link>
+            <Link href="/test-selection">
+              <Button 
+                variant="outline"
+                className="w-full"
+              >
+                Take Another Test
+              </Button>
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>
