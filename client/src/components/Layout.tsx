@@ -17,15 +17,15 @@ export default function Layout({ children }: LayoutProps) {
           <nav>
             <ul className="flex space-x-4">
               <li>
-                <Link href="/">
-                  <a className="text-white hover:text-[#87CEEB] transition">Home</a>
+                <Link href="/" className="text-white hover:text-[#87CEEB] transition">
+                  Home
                 </Link>
               </li>
               {isAuthenticated ? (
                 <>
                   <li>
-                    <Link href="/admin">
-                      <a className="text-white hover:text-[#87CEEB] transition">Admin</a>
+                    <Link href="/admin" className="text-white hover:text-[#87CEEB] transition">
+                      Admin
                     </Link>
                   </li>
                   <li>
@@ -39,8 +39,8 @@ export default function Layout({ children }: LayoutProps) {
                 </>
               ) : (
                 <li>
-                  <Link href="/admin-login">
-                    <a className="text-white hover:text-[#87CEEB] transition">Admin</a>
+                  <Link href="/admin-login" className="text-white hover:text-[#87CEEB] transition">
+                    Admin
                   </Link>
                 </li>
               )}
