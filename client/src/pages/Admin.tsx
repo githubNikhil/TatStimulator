@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { getAuthHeader, processWATFile, processSRTFile } from "@/lib/testUtils";
 import Layout from "@/components/Layout";
 import { useAuth } from "@/context/AuthContext";
+import PPTUploader from "@/components/admin/PPTUploader";
 
 type ContentType = "tat" | "wat" | "srt";
 
