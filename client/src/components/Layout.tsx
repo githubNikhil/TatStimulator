@@ -10,28 +10,28 @@ export default function Layout({ children }: LayoutProps) {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <header className="bg-[#556B2F] text-white shadow-md">
-        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <h1 className="text-xl font-semibold">Psych Test Simulator</h1>
+    <div className="flex flex-col min-h-screen">
+      <header className="bg-gradient-primary text-white shadow-md">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-xl font-semibold tracking-wide">Psych Test Simulator</h1>
           <nav>
-            <ul className="flex space-x-4">
+            <ul className="flex space-x-6">
               <li>
-                <Link href="/" className="text-white hover:text-[#87CEEB] transition">
+                <Link href="/" className="text-white hover:text-light transition-colors duration-200">
                   Home
                 </Link>
               </li>
               {isAuthenticated ? (
                 <>
                   <li>
-                    <Link href="/admin" className="text-white hover:text-[#87CEEB] transition">
+                    <Link href="/admin" className="text-white hover:text-light transition-colors duration-200">
                       Admin
                     </Link>
                   </li>
                   <li>
                     <button 
                       onClick={logout}
-                      className="text-white hover:text-[#87CEEB] transition"
+                      className="text-white hover:text-light transition-colors duration-200"
                     >
                       Logout
                     </button>
@@ -39,7 +39,7 @@ export default function Layout({ children }: LayoutProps) {
                 </>
               ) : (
                 <li>
-                  <Link href="/admin-login" className="text-white hover:text-[#87CEEB] transition">
+                  <Link href="/admin-login" className="text-white hover:text-light transition-colors duration-200">
                     Admin
                   </Link>
                 </li>
@@ -49,11 +49,11 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </header>
 
-      <main className="flex-grow container mx-auto px-4 py-6">
+      <main className="flex-grow container mx-auto px-4 py-8">
         {children}
       </main>
 
-      <footer className="bg-gray-700 text-white py-4">
+      <footer className="bg-neutral text-white py-5">
         <div className="container mx-auto px-4 text-center text-sm">
           <p>© {new Date().getFullYear()} Psych Test Simulator. All rights reserved.</p>
         </div>

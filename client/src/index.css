@@ -9,26 +9,76 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    background-color: #f8f9fa;
   }
 }
 
 :root {
-  --olive-green: #556B2F;
-  --light-blue: #87CEEB;
+  /* Main colors */
+  --primary: #3E6B79; /* Teal blue */
+  --secondary: #F5A540; /* Orange gold */
+  --accent: #5C95B1; /* Light blue */
+  --neutral: #2C3E50; /* Dark slate */
+  
+  /* Supporting colors */
+  --light: #E9EEF2; /* Off-white */
+  --light-accent: #E0F2FE; /* Very light blue */
+  --dark-accent: #1E3A4C; /* Dark blue */
+  --success: #4B9C73; /* Muted green */
+  --warning: #E67E22; /* Amber */
 }
 
-.text-olive-green {
-  color: var(--olive-green);
+/* Text color classes */
+.text-primary {
+  color: var(--primary);
 }
 
-.bg-olive-green {
-  background-color: var(--olive-green);
+.text-secondary {
+  color: var(--secondary);
 }
 
-.text-light-blue {
-  color: var(--light-blue);
+.text-accent {
+  color: var(--accent);
 }
 
-.bg-light-blue {
-  background-color: var(--light-blue);
+.text-neutral {
+  color: var(--neutral);
+}
+
+.text-light {
+  color: var(--light);
+}
+
+/* Background color classes */
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+}
+
+.bg-accent {
+  background-color: var(--accent);
+}
+
+.bg-neutral {
+  background-color: var(--neutral);
+}
+
+.bg-light {
+  background-color: var(--light);
+}
+
+.bg-light-accent {
+  background-color: var(--light-accent);
+}
+
+/* Gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--warning) 100%);
 }

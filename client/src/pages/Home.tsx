@@ -12,20 +12,38 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="max-w-lg mx-auto">
-        <Card className="bg-white rounded-lg shadow-md">
-          <CardContent className="p-6">
-            <h2 className="text-2xl font-semibold text-center mb-6" style={{ color: "#556B2F" }}>
-              Welcome to Psychological Test Simulator
-            </h2>
-            <p className="mb-6 text-center">
-              Simulate standardized psychological tests in a controlled environment.
-            </p>
-            
-            <div className="flex justify-center">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-neutral mb-3">
+            Psychological Test Simulator
+          </h1>
+          <p className="text-slate-600 max-w-lg mx-auto">
+            A professional platform for simulating standardized psychological assessments in a controlled environment.
+          </p>
+        </div>
+        
+        <Card className="bg-white rounded-xl shadow-lg overflow-hidden border-0">
+          <div className="h-2 bg-gradient-primary"></div>
+          <CardContent className="p-8">
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 rounded-full bg-light-accent flex items-center justify-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                  <path d="M2 17l10 5 10-5"></path>
+                  <path d="M2 12l10 5 10-5"></path>
+                </svg>
+              </div>
+              
+              <h2 className="text-2xl font-semibold text-center mb-4 text-primary">
+                Ready to Begin Testing?
+              </h2>
+              
+              <p className="mb-8 text-center text-gray-600 max-w-md">
+                Practice standardized psychological tests with precise timing and professional presentation. Select a specific test or take the full assessment.
+              </p>
+              
               <Button 
-                style={{ backgroundColor: "#556B2F" }}
-                className="hover:bg-opacity-90 text-white font-medium py-6 px-8 rounded-lg transition duration-200 shadow-sm text-lg"
+                className="bg-secondary hover:bg-opacity-90 text-white font-medium py-6 px-10 rounded-lg transition duration-200 shadow-md text-lg"
                 onClick={handlePracticePsych}
               >
                 Practice Psych
