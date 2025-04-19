@@ -213,7 +213,9 @@ export class MemStorage implements IStorage {
 
   async createTATContent(content: InsertTATContent): Promise<TATContent> {
     const id = this.tatContentId++;
-    const tatContent: TATContent = { ...content, id };
+    // Ensure active property is always set to a boolean
+    const active = content.active === undefined ? true : content.active;
+    const tatContent: TATContent = { ...content, id, active };
     this.tatContents.set(id, tatContent);
     return tatContent;
   }
@@ -242,7 +244,9 @@ export class MemStorage implements IStorage {
 
   async createWATContent(content: InsertWATContent): Promise<WATContent> {
     const id = this.watContentId++;
-    const watContent: WATContent = { ...content, id };
+    // Ensure active property is always set to a boolean
+    const active = content.active === undefined ? true : content.active;
+    const watContent: WATContent = { ...content, id, active };
     this.watContents.set(id, watContent);
     return watContent;
   }
@@ -275,7 +279,9 @@ export class MemStorage implements IStorage {
 
   async createSRTContent(content: InsertSRTContent): Promise<SRTContent> {
     const id = this.srtContentId++;
-    const srtContent: SRTContent = { ...content, id };
+    // Ensure active property is always set to a boolean
+    const active = content.active === undefined ? true : content.active;
+    const srtContent: SRTContent = { ...content, id, active };
     this.srtContents.set(id, srtContent);
     return srtContent;
   }
@@ -308,7 +314,9 @@ export class MemStorage implements IStorage {
 
   async createStudentSDTQuestion(question: InsertStudentSDTQuestion): Promise<StudentSDTQuestion> {
     const id = this.studentSDTQuestionId++;
-    const sdtQuestion: StudentSDTQuestion = { ...question, id };
+    // Ensure active property is always set to a boolean
+    const active = question.active === undefined ? true : question.active;
+    const sdtQuestion: StudentSDTQuestion = { ...question, id, active };
     this.studentSDTQuestions.set(id, sdtQuestion);
     return sdtQuestion;
   }
@@ -337,7 +345,9 @@ export class MemStorage implements IStorage {
 
   async createProfessionalSDTQuestion(question: InsertProfessionalSDTQuestion): Promise<ProfessionalSDTQuestion> {
     const id = this.professionalSDTQuestionId++;
-    const sdtQuestion: ProfessionalSDTQuestion = { ...question, id };
+    // Ensure active property is always set to a boolean
+    const active = question.active === undefined ? true : question.active;
+    const sdtQuestion: ProfessionalSDTQuestion = { ...question, id, active };
     this.professionalSDTQuestions.set(id, sdtQuestion);
     return sdtQuestion;
   }
