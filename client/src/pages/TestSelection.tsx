@@ -23,7 +23,7 @@ export default function TestSelection() {
 
   const handleStartTest = () => {
     setModalOpen(false);
-    
+
     switch (modalInfo.testType) {
       case 'tat':
         setLocation("/tat-test");
@@ -71,7 +71,7 @@ export default function TestSelection() {
                 <p className="text-sm text-gray-600 mb-3">Thematic Apperception Test</p>
                 <p className="text-xs text-gray-500 mt-auto">Duration: {TEST_DURATIONS.TAT.TOTAL_TIME / 60} minutes</p>
               </div>
-              
+
               <div 
                 className="border border-light rounded-lg p-5 hover:border-accent transition-all duration-200 cursor-pointer flex flex-col h-full"
                 onClick={() => showInstructions(
@@ -89,7 +89,7 @@ export default function TestSelection() {
                 <p className="text-sm text-gray-600 mb-3">Word Association Test</p>
                 <p className="text-xs text-gray-500 mt-auto">Duration: {TEST_DURATIONS.WAT.TOTAL_TIME / 60} minutes</p>
               </div>
-              
+
               <div 
                 className="border border-light rounded-lg p-5 hover:border-accent transition-all duration-200 cursor-pointer flex flex-col h-full"
                 onClick={() => showInstructions(
@@ -107,7 +107,7 @@ export default function TestSelection() {
                 <p className="text-sm text-gray-600 mb-3">Situation Reaction Test</p>
                 <p className="text-xs text-gray-500 mt-auto">Duration: {TEST_DURATIONS.SRT.TOTAL_TIME / 60} minutes</p>
               </div>
-              
+
               <div 
                 className="border border-light rounded-lg p-5 hover:border-accent transition-all duration-200 cursor-pointer flex flex-col h-full"
                 onClick={() => setLocation("/sdt-selection")}
@@ -122,7 +122,7 @@ export default function TestSelection() {
                 <p className="text-xs text-gray-500 mt-auto">Duration: 15 minutes</p>
               </div>
             </div>
-            
+
             <div className="mt-8 pt-5 border-t border-light">
               <div 
                 className="flex flex-col sm:flex-row items-center justify-between p-5 bg-light-accent rounded-lg cursor-pointer hover:bg-opacity-80 transition-all duration-200"
@@ -133,8 +133,12 @@ export default function TestSelection() {
                 )}
               >
                 <div className="flex items-center mb-4 sm:mb-0">
-                  <div className="w-12 h-12 rounded-full bg-secondary bg-opacity-20 flex items-center justify-center mr-4">
-                    <Layers size={24} className="text-secondary" />
+                  <div className="w-12 h-12 flex items-center justify-center mr-4">
+                    <img 
+                      src="/attached_assets/Jet_logo.avif" 
+                      alt="Jet Logo" 
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div>
                     <h3 className="font-semibold text-secondary">Full Length Psych</h3>
@@ -146,7 +150,7 @@ export default function TestSelection() {
                 </span>
               </div>
             </div>
-            
+
             <div className="mt-6 text-center">
               <Button 
                 variant="ghost"
@@ -159,7 +163,7 @@ export default function TestSelection() {
           </CardContent>
         </Card>
       </div>
-      
+
       <InstructionModal 
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
