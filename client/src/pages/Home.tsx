@@ -43,12 +43,14 @@ export default function Home() {
               </p>
               
               <Button 
-                className="bg-secondary text-white font-medium py-6 px-10 rounded-lg shadow-md text-lg relative group transition-transform duration-300 hover:translate-x-2"
+                className="bg-secondary text-white font-medium py-4 px-8 rounded-lg shadow-md text-lg relative group"
                 onClick={handlePracticePsych}
               >
-                <span className="relative z-10 group-hover:translate-x-1 transition-transform duration-300 inline-flex items-center">
+                <span className="block group-hover:hidden">
                   Practice Psych
-                  <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">🚀</span>
+                </span>
+                <span className="hidden group-hover:block text-2xl">
+                  🚁
                 </span>
                 <span className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/80 to-secondary/60 group-hover:bg-opacity-90 rounded-lg transition-all duration-300"></span>
               </Button>
