@@ -69,12 +69,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       // Return user info without password
       const { password: _, ...userInfo } = user;
+      
+      // Ensure we have an IST timestamp if lastLogin was null
+      let lastLogin = user.lastLogin;
+      if (!lastLogin) {
+        const now = new Date();
+        lastLogin = new Date(now.getTime() + (5 * 60 + 30) * 60000).toISOString(); // IST time
+      }
+      
       res.json({ 
         success: true, 
         user: {
           ...userInfo,
-          // Add a new lastLogin if it was null before
-          lastLogin: user.lastLogin || new Date().toISOString()
+          lastLogin
         }
       });
     } catch (error) {
