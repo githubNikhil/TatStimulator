@@ -14,15 +14,15 @@ export default function TAT() {
   const [showImage, setShowImage] = useState(true);
   const [isTestComplete, setIsTestComplete] = useState(false);
   const [displayTime, setDisplayTime] = useState(TEST_DURATIONS.TAT.DISPLAY_TIME);
-  
+
   // Fetch random TAT image set
   const { data: images = [], isLoading, error } = useQuery<string[]>({
     queryKey: ['/api/tat/random-set'],
   });
-  
+
   // Add blank slide at the end
   const allImages = [...images.slice(0, 11), generateBlankSlide()];
-  
+
   // Timer completion handler - toggles between image display and gap
   const handleTimerComplete = useCallback(() => {
     if (showImage) {
@@ -40,13 +40,13 @@ export default function TAT() {
       }
     }
   }, [showImage, currentImageIndex, allImages.length]);
-  
+
   // Calculate progress percentage
   const progressPercentage = calculateProgress(currentImageIndex + 1, TEST_DURATIONS.TAT.TOTAL_IMAGES);
-  
+
   // Current image
   const currentImage = allImages[currentImageIndex];
-  
+
   if (isTestComplete) {
     return <TestCompletion testName="Thematic Apperception Test" />;
   }
@@ -68,7 +68,7 @@ export default function TAT() {
             ></div>
           </div>
         </CardHeader>
-        
+
         <CardContent className="p-6">
           <div className="text-center mb-6">
             <TestTimer 
@@ -77,7 +77,7 @@ export default function TAT() {
               labelText={showImage ? "Time remaining for current image" : "Time until next image"}
             />
           </div>
-          
+
           <div className="flex items-center justify-center mb-6 rounded-lg overflow-hidden bg-gray-200 h-80">
             {isLoading ? (
               <div className="text-center">Loading images...</div>
@@ -107,7 +107,7 @@ export default function TAT() {
               </div>
             )}
           </div>
-          
+
           <div className="text-center mt-4">
             <p className="text-gray-500 text-sm">
               {showImage 
@@ -116,7 +116,7 @@ export default function TAT() {
             </p>
           </div>
         </CardContent>
-        
+
         <CardFooter className="p-4 border-t border-gray-200 bg-gray-50 rounded-b-lg">
           <Button 
             variant="secondary"

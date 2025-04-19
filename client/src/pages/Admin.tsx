@@ -208,17 +208,7 @@ export default function Admin() {
                 {/* TAT Content Upload */}
                 {contentType === "tat" && (
                   <div className="mb-4">
-                    <Label htmlFor="tatImageUrl">Enter TAT Image URL</Label>
-                    <Input
-                      id="tatImageUrl"
-                      value={imageUrl}
-                      onChange={(e) => setImageUrl(e.target.value)}
-                      placeholder="https://example.com/image.jpg"
-                      className="w-full p-3 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-light-blue"
-                    />
-                    <p className="text-sm text-gray-500 mt-1">
-                      Enter a URL for the TAT image (e.g., from a CDN or image hosting service)
-                    </p>
+                    <PPTUploader />
                   </div>
                 )}
                 
