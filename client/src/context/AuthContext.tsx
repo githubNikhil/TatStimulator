@@ -1,9 +1,20 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { apiRequest } from "@/lib/queryClient";
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  isAdmin: boolean;
+  lastLogin: string | null;
+}
+
 type AuthContextType = {
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<boolean>;
+  user: User | null;
+  isAdmin: boolean; 
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (username: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
   error: string | null;
@@ -13,6 +24,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -20,14 +33,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const checkAuth = () => {
       const authString = localStorage.getItem("auth");
-      if (authString) {
+      const userString = localStorage.getItem("user");
+      
+      if (authString && userString) {
         try {
           const auth = JSON.parse(authString);
-          if (auth.username && auth.password) {
+          const userData = JSON.parse(userString);
+          
+          if (auth.email && auth.password && userData) {
             setIsAuthenticated(true);
+            setUser(userData);
+            setIsAdmin(userData.isAdmin || false);
           }
         } catch (error) {
           localStorage.removeItem("auth");
+          localStorage.removeItem("user");
         }
       }
     };
@@ -35,19 +55,56 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuth();
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const login = async (email: string, password: string) => {
     setIsLoading(true);
     setError(null);
     
     try {
-      await apiRequest("POST", "/api/login", { username, password });
+      const response = await apiRequest("POST", "/api/login", { email, password });
+      const data = await response.json();
       
-      // Store credentials in localStorage for basic auth in future requests
-      localStorage.setItem("auth", JSON.stringify({ username, password }));
-      setIsAuthenticated(true);
-      return true;
+      if (data.success && data.user) {
+        // Store credentials in localStorage for basic auth in future requests
+        localStorage.setItem("auth", JSON.stringify({ email, password }));
+        localStorage.setItem("user", JSON.stringify(data.user));
+        
+        setUser(data.user);
+        setIsAdmin(data.user.isAdmin || false);
+        setIsAuthenticated(true);
+        return true;
+      } else {
+        throw new Error("Login failed");
+      }
     } catch (error) {
       setError("Invalid credentials");
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const register = async (username: string, email: string, password: string) => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await apiRequest("POST", "/api/register", { username, email, password });
+      const data = await response.json();
+      
+      if (data.success && data.user) {
+        // Store credentials in localStorage for basic auth in future requests
+        localStorage.setItem("auth", JSON.stringify({ email, password }));
+        localStorage.setItem("user", JSON.stringify(data.user));
+        
+        setUser(data.user);
+        setIsAdmin(data.user.isAdmin || false);
+        setIsAuthenticated(true);
+        return true;
+      } else {
+        throw new Error("Registration failed");
+      }
+    } catch (error) {
+      setError("Registration failed. The username or email may already be in use.");
       return false;
     } finally {
       setIsLoading(false);
@@ -56,11 +113,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem("auth");
+    localStorage.removeItem("user");
+    setUser(null);
+    setIsAdmin(false);
     setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, isLoading, error }}>
+    <AuthContext.Provider 
+      value={{ 
+        isAuthenticated, 
+        user, 
+        isAdmin,
+        login, 
+        register,
+        logout, 
+        isLoading, 
+        error 
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

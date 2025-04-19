@@ -6,8 +6,6 @@ import { z } from "zod";
 
 // Authentication middleware
 const isAuthenticated = (req: Request, res: Response, next: Function) => {
-  // This is a simple authentication check.
-  // In a real application, this would use sessions or JWT tokens.
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Basic ")) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -15,13 +13,19 @@ const isAuthenticated = (req: Request, res: Response, next: Function) => {
   
   const base64Credentials = authHeader.split(" ")[1];
   const credentials = Buffer.from(base64Credentials, "base64").toString("utf-8");
-  const [username, password] = credentials.split(":");
+  const [email, password] = credentials.split(":");
   
-  if (username !== "admin" || password !== "admin123") {
-    return res.status(401).json({ message: "Invalid credentials" });
-  }
-  
-  next();
+  // Check if the credentials match our admin user
+  storage.getUserByEmail(email)
+    .then(user => {
+      if (!user || !user.isAdmin || user.password !== password) {
+        return res.status(401).json({ message: "Invalid credentials or not an admin" });
+      }
+      next();
+    })
+    .catch(error => {
+      res.status(500).json({ message: "Authentication error", error: error.message });
+    });
 };
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -31,20 +35,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   });
   
-  // Authentication route
+  // Authentication routes
   app.post("/api/login", async (req, res) => {
     try {
-      const { username, password } = req.body;
-      if (!username || !password) {
-        return res.status(400).json({ message: "Username and password are required" });
+      const { email, password } = req.body;
+      if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
       }
       
-      const user = await storage.getUserByUsername(username);
+      // First try to find the user by email
+      let user = await storage.getUserByEmail(email);
+      
+      // If not found, check if using username instead (for backward compatibility)
+      if (!user) {
+        user = await storage.getUserByUsername(email);
+      }
+      
       if (!user || user.password !== password) {
         return res.status(401).json({ message: "Invalid credentials" });
       }
       
-      res.json({ success: true });
+      // Update the last login timestamp
+      await storage.updateUserLastLogin(user.id);
+      
+      // Return user info without password
+      const { password: _, ...userInfo } = user;
+      res.json({ 
+        success: true, 
+        user: {
+          ...userInfo,
+          // Add a new lastLogin if it was null before
+          lastLogin: user.lastLogin || new Date().toISOString()
+        }
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: (error as Error).message });
+    }
+  });
+  
+  // Register route
+  app.post("/api/register", async (req, res) => {
+    try {
+      const { username, email, password } = req.body;
+      if (!username || !email || !password) {
+        return res.status(400).json({ message: "Username, email and password are required" });
+      }
+      
+      // Check if user with same email already exists
+      const existingUserByEmail = await storage.getUserByEmail(email);
+      if (existingUserByEmail) {
+        return res.status(400).json({ message: "Email already in use" });
+      }
+      
+      // Check if user with same username already exists
+      const existingUserByUsername = await storage.getUserByUsername(username);
+      if (existingUserByUsername) {
+        return res.status(400).json({ message: "Username already in use" });
+      }
+      
+      // Create the new user (non-admin by default)
+      const now = new Date();
+      const istTime = new Date(now.getTime() + (5 * 60 + 30) * 60000).toISOString(); // IST time
+      
+      const user = await storage.createUser({
+        username,
+        email,
+        password,
+        isAdmin: false,
+        lastLogin: istTime
+      });
+      
+      // Return user info without password
+      const { password: _, ...userInfo } = user;
+      res.status(201).json({ success: true, user: userInfo });
     } catch (error) {
       res.status(500).json({ message: "Server error", error: (error as Error).message });
     }

@@ -26,12 +26,13 @@ export default function Admin() {
   const [watWords, setWatWords] = useState("");
   const [srtScenarios, setSrtScenarios] = useState("");
   
-  // Redirect to login if not authenticated
+  // Redirect to login if not authenticated or not an admin
+  const { isAdmin } = useAuth();
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !isAdmin) {
       setLocation("/admin-login");
     }
-  }, [isAuthenticated, setLocation]);
+  }, [isAuthenticated, isAdmin, setLocation]);
   
   // Content upload mutations
   const uploadTATMutation = useMutation({

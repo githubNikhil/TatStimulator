@@ -7,7 +7,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import TestSelection from "@/pages/TestSelection";
-import AdminLogin from "@/pages/AdminLogin";
+import LoginPage from "@/pages/LoginPage";
 import Admin from "@/pages/Admin";
 import TAT from "@/components/TestComponents/TAT";
 import WAT from "@/components/TestComponents/WAT";
@@ -20,7 +20,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/test-selection" component={TestSelection} />
-      <Route path="/admin-login" component={AdminLogin} />
+      <Route path="/admin-login" component={LoginPage} />
       <Route path="/admin" component={Admin} />
       <Route path="/tat-test" component={TAT} />
       <Route path="/wat-test" component={WAT} />
