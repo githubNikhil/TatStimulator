@@ -43,10 +43,14 @@ export default function Home() {
               </p>
               
               <Button 
-                className="bg-secondary hover:bg-opacity-90 text-white font-medium py-6 px-10 rounded-lg transition duration-200 shadow-md text-lg"
+                className="bg-secondary text-white font-medium py-6 px-10 rounded-lg shadow-md text-lg relative group transition-transform duration-300 hover:translate-x-2"
                 onClick={handlePracticePsych}
               >
-                Practice Psych
+                <span className="relative z-10 group-hover:translate-x-1 transition-transform duration-300 inline-flex items-center">
+                  Practice Psych
+                  <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">🚀</span>
+                </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/80 to-secondary/60 group-hover:bg-opacity-90 rounded-lg transition-all duration-300"></span>
               </Button>
             </div>
           </CardContent>
