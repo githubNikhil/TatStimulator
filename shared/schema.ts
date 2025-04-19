@@ -1,11 +1,14 @@
-import { pgTable, text, serial, integer, boolean, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, jsonb, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
   password: text("password").notNull(),
+  isAdmin: boolean("is_admin").notNull().default(false),
+  lastLogin: timestamp("last_login", { mode: 'string' }),
 });
 
 export const tatContent = pgTable("tat_content", {
@@ -41,7 +44,10 @@ export const professionalSDTQuestions = pgTable("professional_sdt_questions", {
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
+  email: true,
   password: true,
+  isAdmin: true,
+  lastLogin: true,
 });
 
 export const insertTATContentSchema = createInsertSchema(tatContent).pick({

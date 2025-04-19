@@ -12,7 +12,9 @@ export interface IStorage {
   // User methods
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserLastLogin(id: number): Promise<User | undefined>;
   
   // TAT content methods
   getAllTATContent(): Promise<TATContent[]>;
@@ -85,7 +87,10 @@ export class MemStorage implements IStorage {
     // Initialize with admin user
     this.createUser({
       username: "admin",
-      password: "admin123" // In production, this would be hashed
+      email: "inikhilthhp@gmail.com",
+      password: "Nikadmin26@", // In production, this would be hashed
+      isAdmin: true,
+      lastLogin: null
     });
     
     // Initialize with default content
@@ -160,12 +165,41 @@ export class MemStorage implements IStorage {
       (user) => user.username === username,
     );
   }
+  
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(
+      (user) => user.email === email,
+    );
+  }
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.userId++;
-    const user: User = { ...insertUser, id };
+    // Ensure isAdmin is always a boolean
+    const isAdmin = insertUser.isAdmin === undefined ? false : insertUser.isAdmin;
+    const user: User = { 
+      ...insertUser, 
+      id,
+      isAdmin,
+      lastLogin: insertUser.lastLogin || null
+    };
     this.users.set(id, user);
     return user;
+  }
+  
+  async updateUserLastLogin(id: number): Promise<User | undefined> {
+    const user = this.users.get(id);
+    if (!user) return undefined;
+    
+    // Get IST time (India Standard Time is UTC+5:30)
+    const now = new Date();
+    const istTime = new Date(now.getTime() + (5 * 60 + 30) * 60000).toISOString();
+    
+    const updatedUser: User = { 
+      ...user, 
+      lastLogin: istTime
+    };
+    this.users.set(id, updatedUser);
+    return updatedUser;
   }
 
   // TAT content methods
