@@ -1,8 +1,10 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
+import path from "path";
 import { storage } from "./storage";
 import { insertTATContentSchema, insertWATContentSchema, insertSRTContentSchema } from "@shared/schema";
 import { z } from "zod";
+import { upload, extractImagesFromPPTX, getRandomTATImageSet, handleUploadErrors } from "./pptHandler";
 
 // Authentication middleware
 const isAuthenticated = (req: Request, res: Response, next: Function) => {
@@ -299,6 +301,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       res.status(500).json({ message: "Server error", error: (error as Error).message });
     }
+  });
+
+  // PPT Upload route for TAT images
+  app.post("/api/upload/ppt", isAuthenticated, upload.single('ppt'), handleUploadErrors, async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+      
+      // Extract images from the uploaded PPT
+      const imageUrls = await extractImagesFromPPTX(req.file.path);
+      
+      if (imageUrls.length === 0) {
+        return res.status(400).json({ message: "No images found in the PowerPoint file" });
+      }
+      
+      res.status(201).json({ 
+        success: true, 
+        message: `Successfully extracted ${imageUrls.length} images from PPT`,
+        images: imageUrls
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: (error as Error).message });
+    }
+  });
+
+  // Get random TAT image set
+  app.get("/api/tat/random-set", async (_, res) => {
+    try {
+      const imageSet = getRandomTATImageSet();
+      if (imageSet.length === 0) {
+        return res.status(404).json({ message: "No TAT image sets available" });
+      }
+      
+      res.json({ 
+        success: true, 
+        images: imageSet
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: (error as Error).message });
+    }
+  });
+
+  // Serve uploaded files
+  app.use('/uploads', (req, res, next) => {
+    // Serve static files from uploads directory
+    const filePath = path.join(process.cwd(), req.url);
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        next();
+      }
+    });
   });
 
   const httpServer = createServer(app);
