@@ -11,3 +11,24 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+:root {
+  --olive-green: #556B2F;
+  --light-blue: #87CEEB;
+}
+
+.text-olive-green {
+  color: var(--olive-green);
+}
+
+.bg-olive-green {
+  background-color: var(--olive-green);
+}
+
+.text-light-blue {
+  color: var(--light-blue);
+}
+
+.bg-light-blue {
+  background-color: var(--light-blue);
+}

@@ -15,7 +15,7 @@ export default function Home() {
       <div className="max-w-lg mx-auto">
         <Card className="bg-white rounded-lg shadow-md">
           <CardContent className="p-6">
-            <h2 className="text-2xl font-semibold text-center text-olive-green mb-6">
+            <h2 className="text-2xl font-semibold text-center mb-6" style={{ color: "#556B2F" }}>
               Welcome to Psychological Test Simulator
             </h2>
             <p className="mb-6 text-center">
@@ -24,7 +24,8 @@ export default function Home() {
             
             <div className="flex justify-center">
               <Button 
-                className="bg-olive-green hover:bg-olive-green/90 text-white font-medium py-3 px-6 rounded-lg transition duration-200 shadow-sm"
+                style={{ backgroundColor: "#556B2F" }}
+                className="hover:bg-opacity-90 text-white font-medium py-6 px-8 rounded-lg transition duration-200 shadow-sm text-lg"
                 onClick={handlePracticePsych}
               >
                 Practice Psych
