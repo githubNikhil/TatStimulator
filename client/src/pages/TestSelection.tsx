@@ -135,7 +135,7 @@ export default function TestSelection() {
                 <div className="flex items-center mb-4 sm:mb-0">
                   <div className="w-12 h-12 flex items-center justify-center mr-4">
                     <img 
-                      src="/attached_assets/Jet_logo.avif" 
+                      src="/attached_assets/image_1745054612098.png" 
                       alt="Jet Logo" 
                       className="w-full h-full object-contain"
                     />
