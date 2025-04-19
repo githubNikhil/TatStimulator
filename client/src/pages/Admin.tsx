@@ -40,7 +40,7 @@ export default function Admin() {
       return apiRequest("POST", "/api/tat", {
         imageUrl,
         active: true
-      });
+      }, true); // Use auth for admin endpoints
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/tat'] });
@@ -67,7 +67,7 @@ export default function Admin() {
         .filter(word => word.length > 0)
         .map(word => ({ word, active: true }));
       
-      return apiRequest("POST", "/api/wat", wordArray);
+      return apiRequest("POST", "/api/wat", wordArray, true);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/wat'] });
@@ -94,7 +94,7 @@ export default function Admin() {
         .filter(scenario => scenario.length > 0)
         .map(scenario => ({ scenario, active: true }));
       
-      return apiRequest("POST", "/api/srt", scenarioArray);
+      return apiRequest("POST", "/api/srt", scenarioArray, true);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/srt'] });

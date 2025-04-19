@@ -17,10 +17,19 @@ const isAuthenticated = (req: Request, res: Response, next: Function) => {
   
   // Check if the credentials match our admin user
   storage.getUserByEmail(email)
-    .then(user => {
+    .then(async (user) => {
+      if (!user) {
+        // Let's also check by username for backward compatibility
+        user = await storage.getUserByUsername(email);
+      }
+      
       if (!user || !user.isAdmin || user.password !== password) {
         return res.status(401).json({ message: "Invalid credentials or not an admin" });
       }
+      
+      // Update the last login timestamp for the admin
+      await storage.updateUserLastLogin(user.id);
+      
       next();
     })
     .catch(error => {

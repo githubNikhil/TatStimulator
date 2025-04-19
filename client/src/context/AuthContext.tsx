@@ -61,6 +61,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     
     try {
       const response = await apiRequest("POST", "/api/login", { email, password });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Login failed");
+      }
+      
       const data = await response.json();
       
       if (data.success && data.user) {
@@ -76,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         throw new Error("Login failed");
       }
     } catch (error) {
-      setError("Invalid credentials");
+      setError(error instanceof Error ? error.message : "Invalid credentials");
       return false;
     } finally {
       setIsLoading(false);
@@ -89,6 +95,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     
     try {
       const response = await apiRequest("POST", "/api/register", { username, email, password });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Registration failed");
+      }
+      
       const data = await response.json();
       
       if (data.success && data.user) {
@@ -104,7 +116,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         throw new Error("Registration failed");
       }
     } catch (error) {
-      setError("Registration failed. The username or email may already be in use.");
+      setError(error instanceof Error 
+        ? error.message 
+        : "Registration failed. The username or email may already be in use.");
       return false;
     } finally {
       setIsLoading(false);
