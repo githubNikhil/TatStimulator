@@ -12,8 +12,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[url('https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?auto=format&fit=crop&q=80')] bg-cover bg-center bg-no-repeat bg-fixed before:content-[''] before:absolute before:inset-0 before:bg-black/40">
-      <div className="max-w-2xl mx-auto relative">
+      <div className="max-w-2xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-neutral mb-3">
             Psychological Test Simulator
@@ -23,8 +22,8 @@ export default function Home() {
           </p>
         </div>
         
-        <Card className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden border-0 mt-10">
-          <div className="h-2 bg-gradient-to-r from-[#FF9933] via-white to-[#138808]"></div>
+        <Card className="bg-white rounded-xl shadow-lg overflow-hidden border-0">
+          <div className="h-2 bg-gradient-primary"></div>
           <CardContent className="p-8">
             <div className="flex flex-col items-center">
               <div className="w-16 h-16 rounded-full bg-light-accent flex items-center justify-center mb-6">
