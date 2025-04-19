@@ -9,7 +9,15 @@ interface TestTimerProps {
   className?: string;
   showLabel?: boolean;
   labelText?: string;
+  defaultVisible?: boolean;
 }
+
+// Load timer visibility preference from localStorage
+const TIMER_VISIBILITY_KEY = 'timer_visibility';
+const getStoredTimerVisibility = () => {
+  const stored = localStorage.getItem(TIMER_VISIBILITY_KEY);
+  return stored === null ? true : stored === 'true';
+};
 
 export default function TestTimer({
   initialTime,
@@ -18,9 +26,17 @@ export default function TestTimer({
   isCountdown = true,
   className = "",
   showLabel = true,
-  labelText
+  labelText,
+  defaultVisible
 }: TestTimerProps) {
   const [timeRemaining, setTimeRemaining] = useState(initialTime);
+  const [isVisible, setIsVisible] = useState(defaultVisible ?? getStoredTimerVisibility());
+
+  const toggleVisibility = () => {
+    const newVisibility = !isVisible;
+    setIsVisible(newVisibility);
+    localStorage.setItem(TIMER_VISIBILITY_KEY, String(newVisibility));
+  };
 
   // Reset timer if initialTime changes
   useEffect(() => {
@@ -51,13 +67,23 @@ export default function TestTimer({
 
   return (
     <div className="text-center">
-      <div className={`text-2xl font-bold text-olive-green ${className}`}>
-        {formatTime(timeRemaining)}
-      </div>
-      {showLabel && (
-        <div className="text-sm text-gray-500">
-          {labelText || (isCountdown ? 'Time remaining' : 'Time elapsed')}
-        </div>
+      <button 
+        onClick={toggleVisibility}
+        className="mb-2 px-3 py-1 text-sm rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+      >
+        {isVisible ? 'Hide Timer' : 'Show Timer'}
+      </button>
+      {isVisible && (
+        <>
+          <div className={`text-2xl font-bold text-olive-green ${className}`}>
+            {formatTime(timeRemaining)}
+          </div>
+          {showLabel && (
+            <div className="text-sm text-gray-500">
+              {labelText || (isCountdown ? 'Time remaining' : 'Time elapsed')}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

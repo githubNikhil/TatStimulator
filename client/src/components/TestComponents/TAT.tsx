@@ -15,9 +15,9 @@ export default function TAT() {
   const [isTestComplete, setIsTestComplete] = useState(false);
   const [displayTime, setDisplayTime] = useState(TEST_DURATIONS.TAT.DISPLAY_TIME);
   
-  // Fetch TAT images
-  const { data: images = [], isLoading, error } = useQuery<TATContent[]>({
-    queryKey: ['/api/tat'],
+  // Fetch random TAT image set
+  const { data: images = [], isLoading, error } = useQuery<string[]>({
+    queryKey: ['/api/tat/random-set'],
   });
   
   // Add blank slide at the end
