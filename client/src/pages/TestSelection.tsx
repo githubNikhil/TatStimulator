@@ -6,6 +6,7 @@ import Layout from "@/components/Layout";
 import InstructionModal from "@/components/InstructionModal";
 import { TEST_DURATIONS } from "@/lib/testUtils";
 import { Brain, MessageSquare, Sparkles, ListChecks, Layers } from "lucide-react";
+import Jet_logo from '../../../attached_assets/image_1745054612098.png';
 
 export default function TestSelection() {
   const [, setLocation] = useLocation();
@@ -44,13 +45,16 @@ export default function TestSelection() {
 
   return (
     <Layout>
+      
       <div className="max-w-3xl mx-auto">
+        
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-primary mb-2">Test Selection</h1>
           <p className="text-slate-600">Choose a specific assessment or select the full test battery</p>
         </div>
 
         <Card className="bg-white rounded-xl shadow-lg overflow-hidden border-0 mb-8">
+          
           <div className="h-1 bg-gradient-primary"></div>
           <CardContent className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -81,7 +85,8 @@ export default function TestSelection() {
                 )}
               >
                 <div className="flex items-center mb-3">
-                  <div className="w-10 h-10 rounded-full bg-light-accent flex items-center justify-center mr-3">
+                  
+                  <div className="w-10 h-10 rounded-full bg-light-accent flex items-center justify-center mr-3 z-20">
                     <MessageSquare size={20} className="text-primary" />
                   </div>
                   <h3 className="font-semibold text-primary">WAT</h3>
@@ -135,7 +140,7 @@ export default function TestSelection() {
                 <div className="flex items-center mb-4 sm:mb-0">
                   <div className="w-12 h-12 flex items-center justify-center mr-4">
                     <img 
-                      src="/attached_assets/image_1745054612098.png" 
+                      src={Jet_logo} 
                       alt="Jet Logo" 
                       className="w-full h-full object-contain"
                     />
